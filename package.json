@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-cli-games",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node src/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leandrofahur/nodejs-cli-games.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leandrofahur/nodejs-cli-games/issues"
+  },
+  "homepage": "https://github.com/leandrofahur/nodejs-cli-games#readme"
+}
