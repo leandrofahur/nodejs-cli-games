@@ -9,6 +9,7 @@ const { stdin, stdout } = process;
 
 stdin.setRawMode(true);
 stdin.setEncoding("utf-8");
+readline.emitKeypressEvents(stdin);
 
 const hideCursor = function () {
   rl.write("\x1b[?25l");
@@ -66,6 +67,9 @@ const generateBait = function () {
   return position;
 };
 
+let dx;
+let dy;
+
 const snake = [
   {
     x: 10,
@@ -78,15 +82,65 @@ const bait = generateBait();
 setCursorToPosition(bait.x, bait.y);
 stdout.write("🍣");
 
-const animateSnake = () => {
-  let i = 0;
-  let pos = [];
-  setInterval(() => {
-    setCursorToPosition(10 + i, 10);
-    i++;
-    stdout.write("0");
-    pos.push({ x: 10 + i, y: 10 });
-  }, 300);
+const animateSnake = (snake, dx, dy) => {
+  ddx = snake[0].x + dx;
+  ddy = snake[0].y + dy;
+
+  snake.unshift({ x: ddx, y: ddy });
+  snake.pop();
 };
 
-animateSnake();
+let key = null;
+stdin.on("keypress", (str, key) => {
+  if (key.ctrl && key.name === "c") {
+    process.exit(0);
+  }
+
+  switch (key.name) {
+    case "up":
+      dx = -1;
+      dy = 0;
+      break;
+
+    case "left":
+      dx = 0;
+      dy = -2;
+      break;
+
+    case "down":
+      dx = 1;
+      dy = 0;
+      break;
+
+    case "right":
+      dx = 0;
+      dy = 2;
+      break;
+  }
+});
+
+const pos = [];
+
+setInterval(() => {
+  // setCursorToPosition(10 + i, 10);
+  // stdout.write("o");
+  pos.unshift({ x: 10 + dx, y: 10 + dy });
+  // setCursorToRelativePosition(dx, dy);
+  // stdout.write(" ");
+  pos.pop();
+  // i++;
+}, 300);
+
+// const animateSnake = () => {
+//   // let i = 0;
+//   // let pos = [];
+//   setInterval(() => {
+//     // setCursorToPosition(10 + i, 10);
+//     // stdout.write("o");
+//     pos.unshift({ x: 10 + dx, y: 10 + dy });
+//     // setCursorToRelativePosition(dx, dy);
+//     // stdout.write(" ");
+//     pos.pop();
+//     // i++;
+//   }, 300);
+// };
